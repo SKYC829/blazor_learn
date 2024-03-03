@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor-Server", "Blazor-Server", "{07E8F3F8-B2EC-44A2-A58B-81142565162B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor-WASM", "Blazor-WASM", "{0FB7F4ED-3C71-44CF-8D9B-C1CE67A3E686}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor-App", "Blazor-App", "{CA9DC8E9-71CA-49B5-91C5-2993F0F453B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F5D34287-4856-481C-88B1-FB662F1F64A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorLearn_WebApp", "BlazorLearn_WebApp\BlazorLearn_WebApp\BlazorLearn_WebApp.csproj", "{081CAE12-1AF4-4601-A39D-136CA193BC2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorLearn_WebApp.Client", "BlazorLearn_WebApp\BlazorLearn_WebApp.Client\BlazorLearn_WebApp.Client.csproj", "{4EE532D7-D3AF-4967-BA7C-22582966836E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{081CAE12-1AF4-4601-A39D-136CA193BC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{081CAE12-1AF4-4601-A39D-136CA193BC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{081CAE12-1AF4-4601-A39D-136CA193BC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{081CAE12-1AF4-4601-A39D-136CA193BC2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{081CAE12-1AF4-4601-A39D-136CA193BC2A} = {CA9DC8E9-71CA-49B5-91C5-2993F0F453B2}
+		{4EE532D7-D3AF-4967-BA7C-22582966836E} = {CA9DC8E9-71CA-49B5-91C5-2993F0F453B2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBDCF96F-C121-4099-AC5C-00547CE4EADD}
+	EndGlobalSection
+EndGlobal
