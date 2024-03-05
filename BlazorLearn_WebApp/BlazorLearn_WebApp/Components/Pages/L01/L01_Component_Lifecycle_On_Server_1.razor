@@ -1,0 +1,12 @@
+﻿@page "/l01/component/life-cycle/server-render-1"
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+<h3>L01_Component_Lifecycle_On_Server_No_Prerender</h3>
+
+<div>
+    <span>渲染顺序输出</span>
+</div>
+@foreach ( string stage in _stages )
+{
+    <li><span>@stage</span></li>
+}
