@@ -1,0 +1,23 @@
+﻿@page "/l02/interactive/cascadingValue-1"
+
+<h3>L02_Multiple_CascadingValue</h3>
+
+<span>Value1:</span>@Value1<br/>
+<span>Value2:</span>@Value2
+
+<div>
+    通过嵌套 <strong>CascadingValue</strong> 传递多个级联参数
+    <CascadingValue Value="Value1" Name="Value1">
+        <CascadingValue Value="Value2" Name="Value2">
+            <L02_Multiple_CascadingValue_Parent/>
+        </CascadingValue>
+    </CascadingValue>
+</div>
+<br/>
+<br/>
+<div>
+    通过抽取为对象传递多个级联参数
+    <CascadingValue Value="CascadingObject">
+        <L02_Multiple_CascadingValue_Parent_1 />
+    </CascadingValue>
+</div>

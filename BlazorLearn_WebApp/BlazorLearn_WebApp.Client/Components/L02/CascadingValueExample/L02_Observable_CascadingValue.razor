@@ -1,0 +1,19 @@
+﻿@page "/l02/interactive/cascadingValue-2"
+
+<h3>L02_Observable_CascadingValue</h3>
+
+<div>
+    <p>不封装成对象的部分</p>
+    <label for="tb_Name">名称:</label>
+    <input type="text" @bind-value="Name" @bind-value:event="oninput" />
+
+    <label for="tb_Email">邮箱:</label>
+    <input id="tb_Email" @value="@Email"/>
+
+    <p>子组件:</p>
+@*     <CascadingValue Value="Name" Name="Name">
+        <CascadingValue Value="Email" Name="Email">
+            <L02_Observable_CascadingValue_Parent/>
+        </CascadingValue>
+    </CascadingValue> *@
+</div>
