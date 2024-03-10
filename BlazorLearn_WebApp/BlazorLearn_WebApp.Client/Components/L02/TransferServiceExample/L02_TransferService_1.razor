@@ -1,0 +1,46 @@
+﻿@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using System.Linq
+
+@page "/l02/interactive/transferService/display"
+@rendermode InteractiveServer
+@inject TransferLogService LogService
+@implements IDisposable
+
+<h3>L02_TransferService_1</h3>
+
+<div>
+    <span>日志服务ID:</span>@LogService.ServiceId
+</div>
+
+@foreach ( var item in _logs )
+{
+    <li>
+        <span>@item</span>
+    </li>
+}
+
+@code {
+    private ObservableCollection<string> _logs;
+
+    protected override void OnInitialized ()
+    {
+        base.OnInitialized ();
+        _logs = new ObservableCollection<string>();
+        LogService.Logs.CollectionChanged += OnLogCollectionChanged;
+    }
+
+    private void OnLogCollectionChanged ( object? sender , NotifyCollectionChangedEventArgs? args )
+    {
+        _logs.Add($"{DateTime.Now}:HH:mm:ss => 日志列表发生了改变: {args?.NewItems?.Cast<object>().FirstOrDefault() ?? ""}");
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose ()
+    {
+        if(LogService.Logs is not null )
+        {
+            LogService.Logs.CollectionChanged -= OnLogCollectionChanged;
+        }
+    }
+}
