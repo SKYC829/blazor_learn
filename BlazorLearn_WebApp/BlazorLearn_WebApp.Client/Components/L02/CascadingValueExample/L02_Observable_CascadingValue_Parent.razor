@@ -1,0 +1,16 @@
+﻿<h3>L02_Observable_CascadingValue_Parent</h3>
+
+<div>
+    <p>父组件的参数是</p>
+    <div><span>Name:</span>@Name</div>
+    <div><span>Email:</span>@Email</div>
+</div>
+
+@code {
+
+    [CascadingParameter(Name = "Name")]
+    public string Name { get; set; }
+
+    [CascadingParameter(Name = "Email")]
+    public string Email{ get; set; }
+}

@@ -1,0 +1,13 @@
+﻿@page "/l02/interactive/parameter"
+@rendermode InteractiveAuto
+
+<h3>L02_Parameter</h3>
+
+<div>
+    <p>不传不确定参数</p>
+    <L02_Parameter_Parent Param1="从页面过来的Param1" Param2="我是理论上必填的Param"/>
+</div>
+<div>
+    <p>传不确定参数</p>
+    <L02_Parameter_Parent Param1="从页面过来的Param1" Param2="我是理论上必填的Param" Unstable Category="我是分类"/>
+</div>

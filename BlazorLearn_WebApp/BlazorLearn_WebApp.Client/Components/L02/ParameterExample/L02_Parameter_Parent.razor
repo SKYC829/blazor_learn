@@ -1,0 +1,37 @@
+﻿<h3>L02_Parameter_Parent</h3>
+
+<div>
+    <span>参数1:</span>@Param1
+</div>
+<div>
+    <span>参数2:</span>@Param2
+</div>
+
+<div>
+    <p>捕获到的不确定参数</p>
+    @if(UnmatchParameters is not null && UnmatchParameters.Count > 0 )
+    {
+        @foreach ( var item in UnmatchParameters )
+        {
+            <div>
+                <span>捕获到:</span> @item.Key <span>=</span> @item.Value
+            </div>
+        }
+    }
+    else
+    {
+        <span>没有捕获到不确定参数</span>
+    }
+</div>
+
+@code{
+    [Parameter]
+    public string Param1 {get;set;}
+
+    [Parameter]
+    [EditorRequired]
+    public string Param2 {get;set;}
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string,object> UnmatchParameters {get;set;}
+}

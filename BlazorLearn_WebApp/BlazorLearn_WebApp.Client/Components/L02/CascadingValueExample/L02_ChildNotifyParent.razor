@@ -1,0 +1,19 @@
+﻿@page "/l02/interactive/cascadingValue-3"
+@rendermode InteractiveAuto
+
+<h3>L02_ChildNotifyParent</h3>
+
+<div>
+    <p>父组件订阅子组件事件示例</p>
+    <L02_ChildNotifyParent_Parent PropertyChangedEvent="OnPropertyChanged" />
+</div>
+
+<div>
+    <p>父组件传递给子组件示例</p>
+    <CascadingValue Value="this">
+        <L02_ChildNotifyParent_Parent_1 />
+    </CascadingValue>
+</div>
+<div>
+    <button disabled="@CanSubmit" @onclick="HandleClickAsync">点我一下</button>
+</div>
