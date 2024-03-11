@@ -1,0 +1,25 @@
+﻿@page "/l02/interactive/transferService"
+@rendermode InteractiveServer
+
+@inject TransferLogService LogService;
+
+<h3>L02_TransferService</h3>
+
+<div>
+    <span>日志服务ID:</span>@LogService.ServiceId
+</div>
+<div>
+    <label for="tb_logs">日志内容:</label>
+    <input type="text" id="tb_logs" @bind-value="_log" />
+</div>
+<div>
+    <button @onclick="WriteLog">记录</button>
+</div>
+
+@code{
+    private string? _log;
+
+    private void WriteLog(){
+        LogService?.Logs.Add(_log??"Empty Log");
+    }
+}
