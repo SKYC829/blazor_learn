@@ -9,5 +9,7 @@ stages:
 - test
 sast:
   stage: test
+  tags:
+    - global
 include:
 - template: Security/SAST.gitlab-ci.yml
