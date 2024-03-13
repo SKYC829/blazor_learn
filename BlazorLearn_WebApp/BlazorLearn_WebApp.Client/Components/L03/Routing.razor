@@ -1,0 +1,15 @@
+﻿@page "/l03/query-parameter"
+<h3>Routing</h3>
+
+<h1>userId:@DifferentName_Id</h1>
+<h1>userName:@userName</h1>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "userId")]
+    public int DifferentName_Id { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string userName { get; set; }
+}
