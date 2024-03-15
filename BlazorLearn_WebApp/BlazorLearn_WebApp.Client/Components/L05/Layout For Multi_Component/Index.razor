@@ -1,0 +1,14 @@
+﻿@page "/l05/layout for multi_component"
+<h3>Index</h3>
+
+<div style="background-color:burlywood">
+<LayoutView Layout="typeof(Layout.L05.AdminLayout)">
+    <BlazorLearn_WebApp.Client.Components.L05.Layout_For_Component.About/>
+</LayoutView>
+</div>
+
+<div style="background-color:cadetblue">
+<LayoutView Layout="typeof(Layout.L05.InnerComponentLayout)">
+    <BlazorLearn_WebApp.Client.Components.L05.Layout_For_Component.About/>
+</LayoutView>
+</div>
