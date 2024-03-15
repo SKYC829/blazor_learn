@@ -1,0 +1,60 @@
+﻿@page "/l04/navigating"
+@rendermode InteractiveAuto
+@implements IDisposable
+@inject NavigationManager navManager
+<h3>L04_Navigating</h3>
+<div>
+    <span>&lt;a&gt;示例:</span><br/>
+    <a href="/l04/about">跳转到关于</a>
+</div>
+<div>
+    <span>&lt;NavLink&gt;示例:</span><br/>
+    <NavLink href="/l04/about">跳转到关于</NavLink>
+</div>
+<div>
+    <span>代码导航示例:</span><br/>
+    <input type="checkbox" oninput="OnReloadChanged" value="force reload" />
+    <input type="checkbox" oninput="OnReplaceChanged" value="replace" />
+    <button @onclick="GotoAbout">跳转到关于</button>
+</div>
+@code {
+    private bool useForceReload;
+    private bool useReplace;
+
+    private async Task OnReloadChanged(ChangeEventArgs eventArgs)
+    {
+        if(bool.TryParse(eventArgs?.Value?.ToString()??"false",out bool forceReload) )
+        {
+            useForceReload = forceReload;
+        }
+    }
+
+    private async Task OnReplaceChanged(ChangeEventArgs eventArgs)
+    {
+        if ( bool.TryParse(eventArgs?.Value?.ToString() ?? "false", out bool replace) )
+        {
+            useReplace = replace;
+        }
+    }
+
+    private async Task GotoAbout()
+    {
+        navManager.NavigateTo("/l04/about", forceLoad: useForceReload, replace: useReplace);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        navManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object sender, LocationChangedEventArgs args)
+    {
+        Console.WriteLine($"{sender} -> URL 发生改变 -> {args.Location} / {args.HistoryEntryState} / {args.IsNavigationIntercepted}");
+    }
+
+    public void Dispose()
+    {
+        navManager.LocationChanged -= OnLocationChanged;
+    }
+}
