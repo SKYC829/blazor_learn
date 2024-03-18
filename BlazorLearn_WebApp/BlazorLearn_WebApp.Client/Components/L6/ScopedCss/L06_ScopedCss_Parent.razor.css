@@ -1,0 +1,12 @@
+﻿body {
+}
+
+.scoped-css 
+{
+    background-color:yellow
+}
+
+.scoped-css ::deep .scoped-css-override{
+    background-color: gray;
+    font-size:15px;
+}
