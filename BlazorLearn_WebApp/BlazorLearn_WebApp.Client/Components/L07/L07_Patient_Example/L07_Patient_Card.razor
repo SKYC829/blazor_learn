@@ -1,0 +1,29 @@
+﻿<div>
+    <div>
+        <h3>病人卡片</h3>
+    </div>
+    <div>
+        @if(BasicInfoTemplate is not null && BasicInfo is not null )
+        {
+            @BasicInfoTemplate?.Invoke(BasicInfo);
+        }
+    </div>
+    <div>
+        @if ( AdditionInfoTemplate is not null && BasicInfo is not null)
+        {
+            @AdditionInfoTemplate?.Invoke(BasicInfo.GetAdditionInfo());
+        }
+    </div>
+</div>
+
+@code{
+
+    [Parameter]
+    public IPatientBasicInfo? BasicInfo { get; set; }
+
+    [Parameter]
+    public RenderFragment<IPatientBasicInfo>? BasicInfoTemplate {get;set;}
+
+    [Parameter]
+    public RenderFragment<IPatientAdditionalInfo>? AdditionInfoTemplate { get; set; }
+}
