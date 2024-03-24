@@ -1,0 +1,86 @@
+﻿@using L07.L07_Patient_Example.Models
+
+@page "/l07/slot"
+
+<h3>L07_Slot_Index</h3>
+
+<L07_Slot_Component>
+    <BasicInfo>我是基础信息</BasicInfo>
+</L07_Slot_Component>
+
+<L07_Slot_Component>
+    <BasicInfo>我是基础信息，我会重写特殊信息</BasicInfo>
+    <SpecialInfo>我是重写后的特殊信息</SpecialInfo>
+</L07_Slot_Component>
+
+<L07_Slot_SingleSlotComponent>我是内容</L07_Slot_SingleSlotComponent>
+
+<BlazorLearn_WebApp.Client.Components.L07.L07_Patient_Example.L07_Patient_Card BasicInfo="new HumanPatient()" Context="patientContext">
+    <BasicInfoTemplate>
+        <EditForm EditContext="new EditContext(patientContext)">
+            <AntiforgeryToken />
+            <div>
+                <label>名称:</label>
+                <InputText DisplayName="名称" @bind-Value="patientContext.Name" />
+            </div>
+            <div>
+                <label>年龄:</label>
+                <InputNumber DisplayName="年龄" @bind-Value="patientContext.Age" />
+            </div>
+            <div>
+                <label>种类:</label>
+                <InputText DisplayName="种类" @bind-Value="patientContext.Category" />
+            </div>
+            <div>
+                <label>入院日期：</label>
+                <InputDate DisplayName="入院日期" @bind-Value="patientContext.InhospitalDate"/>
+            </div>
+        </EditForm>
+    </BasicInfoTemplate>
+    <AdditionInfoTemplate>
+        <EditForm EditContext="new EditContext(patientContext)">
+            <AntiforgeryToken/>
+            <div>
+                <label>描述：</label>
+                <InputTextArea DisplayName="描述" @bind-Value="(patientContext as HumanAdditionInfo)!.Description"/>
+            </div>
+        </EditForm>
+    </AdditionInfoTemplate>
+</BlazorLearn_WebApp.Client.Components.L07.L07_Patient_Example.L07_Patient_Card>
+
+<BlazorLearn_WebApp.Client.Components.L07.L07_Patient_Example.L07_Patient_Card BasicInfo="new AnimalPatient()" Context="patientContext">
+    <BasicInfoTemplate>
+        <EditForm EditContext="new EditContext(patientContext)">
+            <AntiforgeryToken />
+            <div>
+                <label>名称:</label>
+                <InputText DisplayName="名称" @bind-Value="patientContext.Name" />
+            </div>
+            <div>
+                <label>年龄:</label>
+                <InputNumber DisplayName="年龄" @bind-Value="patientContext.Age" />
+            </div>
+            <div>
+                <label>种类:</label>
+                <InputText DisplayName="种类" @bind-Value="patientContext.Category" />
+            </div>
+            <div>
+                <label>入院日期：</label>
+                <InputDate DisplayName="入院日期" @bind-Value="patientContext.InhospitalDate" />
+            </div>
+        </EditForm>
+    </BasicInfoTemplate>
+    <AdditionInfoTemplate>
+        <EditForm EditContext="new EditContext(patientContext)">
+            <AntiforgeryToken />
+            <div>
+                <label>描述：</label>
+                <InputTextArea DisplayName="描述" @bind-Value="(patientContext as AnimalAdditionInfo)!.Description" />
+            </div>
+            <div>
+                <label>是否是濒危物种：</label>
+                <InputCheckbox DisplayName="是否是濒危物种" @bind-Value="(patientContext as AnimalAdditionInfo)!.IsEndangered"/>
+            </div>
+        </EditForm>
+    </AdditionInfoTemplate>
+</BlazorLearn_WebApp.Client.Components.L07.L07_Patient_Example.L07_Patient_Card>

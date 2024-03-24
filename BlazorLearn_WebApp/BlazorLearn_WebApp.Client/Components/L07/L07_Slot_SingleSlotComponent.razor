@@ -1,0 +1,14 @@
+﻿<h3>L07_Slot_SingleSlotComponent</h3>
+
+<div>
+    <span>
+        下面是我的 Content
+    </span>
+    <br/>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
