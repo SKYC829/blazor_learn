@@ -1,0 +1,49 @@
+﻿@page "/lx/directives"
+@rendermode InteractiveServer
+
+<h3>L10_Directives</h3>
+
+<input type="checkbox" value="不禁用默认行为" @onclick='_=>OnCheckBoxChangeAsync("不禁用默认行为的")'/>
+<input type="checkbox" value="禁用默认行为" @onclick:preventDefault @onclick='_=>OnCheckBoxChangeAsync("禁用默认行为的")' />
+
+<div>
+    <span>不阻断冒泡</span>
+    <div @onclick='_=>message += "div1 被点击"'>
+        <span>我是div1</span>
+        <div @onclick='_=>message += "div2 被点击"'>
+            <span>我是div2</span>
+            <div @onclick='_=>message += "div3 被点击"'>
+                <span>我是div3</span>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<div>
+    <span>阻断冒泡</span>
+    <div @onclick='_=>message += "div1 被点击"'>
+        <span>我是div1</span>
+        <div @onclick='_=>message += "div2 被点击，冒泡被阻断在这"' @onclick:stopPropagation>
+            <span>我是div2</span>
+            <div @onclick='_=>message += "div3 被点击"'>
+                <span>我是div3</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+@message
+</div>
+
+<button @onclick='_=>message = ""'>重置</button>
+
+@code {
+    private string message = "";
+
+    public async Task OnCheckBoxChangeAsync(string id)
+    {
+        Console.WriteLine($"{id} 复选框被点击");
+    }
+}
