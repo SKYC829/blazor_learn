@@ -1,5 +1,6 @@
 using BlazorLearn_WebApp.Client;
 using BlazorLearn_WebApp.Client.Components.L02.TransferServiceExample;
+using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,10 @@ builder.Services.AddRazorComponents ()
     .AddInteractiveWebAssemblyComponents ();
 
 builder.Services.AddScoped<TransferLogService> ();
+
+builder.Services.AddSingleton<SingletonService>()
+    .AddScoped<ScopedService>()
+    .AddTransient<TransientService>();
 
 var app = builder.Build();
 
