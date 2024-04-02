@@ -1,0 +1,74 @@
+﻿@page "/l11/blazor_form"
+@rendermode InteractiveAuto
+
+@inject ILogger<L11_Blazor_Form> Logger;
+
+<h3>L11_Blazor_Form</h3>
+
+<EditForm EditContext="_editContext" FormName="myForm" OnValidSubmit="OnFormSubmit" OnInvalidSubmit='_=>Logger.LogWarning("表单验证失败")'>
+    <DataAnnotationsValidator/>
+    <label>
+        <span>验证消息汇总：</span><br/>
+        <ValidationSummary />
+    </label>
+    <label>
+        <div>不填这个字段会导致验证失败</div>
+        <InputText @bind-Value="Model.Message" />
+        <ValidationMessage For="()=>Model.Message" />
+    </label>
+    <label>
+        <div>这个字段小于0或大于5会导致验证失败</div>
+        <InputNumber @bind-Value="Model.IntValue" />
+        <ValidationMessage For="()=>Model.IntValue" />
+    </label>
+    <label>
+        <div>禁用的控件</div>
+        <InputText @bind-Value="Model.Message" disabled="true"/>
+    </label>
+    <label>
+        <div>禁用的控件1.0</div>
+        <InputText @bind-Value="Model.Message" @bind-disabled="_disabled"/>
+    </label>
+    <button type="submit">提交</button>
+</EditForm>
+
+@code {
+    private EditContext? _editContext;
+    private ValidationMessageStore? _validationMessageStore;
+    private bool _disabled = true;
+    public ExampleFormModel? Model { get; set; } = new ExampleFormModel();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _editContext = new EditContext(Model);
+        _editContext.OnFieldChanged += OnContextFieldChanged;
+        _validationMessageStore = new ValidationMessageStore(_editContext);
+    }
+
+    private void OnContextFieldChanged(object? sender,FieldChangedEventArgs eventArgs)
+    {
+        _validationMessageStore?.Clear();
+        if(Model!.IntValue == 6 )
+        {
+            _validationMessageStore?.Add(_editContext!.Field(nameof(Model.Message)), "这个错误消息是专门给到 Message 字段的");
+            _validationMessageStore?.Add(eventArgs.FieldIdentifier, "这个错误消息是给到发生了改变导致验证失败的字段的");
+            _validationMessageStore?.Add(_editContext!.Field(string.Empty), "这个错误消息是给到表单的");
+        }
+        _editContext!.Validate();
+    }
+
+    private void OnFormSubmit()
+    {
+        Logger.LogInformation($"表单提交，当前表单模型的Message数据为:{Model.Message}");
+        Model = new ExampleFormModel();
+    }
+
+    public void Dispose()
+    {
+        if (_editContext is not null)
+        {
+            _editContext.OnFieldChanged -= OnContextFieldChanged;
+        }
+    }
+}
