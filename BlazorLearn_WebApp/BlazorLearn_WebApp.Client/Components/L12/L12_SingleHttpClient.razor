@@ -1,0 +1,86 @@
+﻿@using System.Net.Http;
+
+@page "/l12/blazor_http_client/single"
+@rendermode InteractiveServer
+
+@inject IHttpClientFactory HttpClientFactory;
+@inject WeatherForecastApi WrapperApi;
+@inject ILogger<L12_SingleHttpClient> Logger;
+
+<h3>L12_SingleHttpClient</h3>
+
+<button @onclick="GetWeatherAsync">获取天气</button>
+
+<div>
+    @if ( string.IsNullOrWhiteSpace(_weatherJson) )
+    {
+        <span>请先获取天气</span>
+    }
+    else
+    {
+        @_weatherJson;
+    }
+</div>
+
+<button @onclick="GetWeatherByWrapperAsync">通过包装器获取天气</button>
+
+<div>
+    @if ( string.IsNullOrWhiteSpace(_weatherJson_Wrapper) )
+    {
+        <span>请先获取天气</span>
+    }
+    else
+    {
+        @_weatherJson_Wrapper
+    }
+</div>
+
+<button @onclick="GetWeatherByExtensionAsync">通过扩展方法获取天气</button>
+
+<div>
+    @if ( string.IsNullOrWhiteSpace(_weatherJson_Ext) )
+    {
+        <span>请先获取天气</span>
+    }
+    else
+    {
+        @_weatherJson_Ext
+    }
+</div>
+
+@code {
+    private HttpClient? _client;
+    private string? _weatherJson,_weatherJson_Wrapper,_weatherJson_Ext;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _client = HttpClientFactory.CreateClient();
+        var baiduClient = HttpClientFactory.CreateClient("baidu");
+        var localClient = HttpClientFactory.CreateClient("local");
+        Console.WriteLine($"no name: {_client.BaseAddress} \r\n baidu: {baiduClient.BaseAddress} \r\n local: {localClient.BaseAddress}");
+    }
+
+    private async Task GetWeatherAsync()
+    {
+        _weatherJson = string.Empty;
+        var localClient = HttpClientFactory.CreateClient("local");
+        HttpResponseMessage response = await localClient.GetAsync("/WeatherForecast");
+        localClient.Send(new HttpRequestMessage(HttpMethod.Get, "/WeatherForecast"));
+        response.EnsureSuccessStatusCode();
+        _weatherJson = await response.Content.ReadAsStringAsync();
+    }
+
+    private async Task GetWeatherByWrapperAsync()
+    {
+        _weatherJson_Wrapper = string.Empty;
+        _weatherJson_Wrapper = await WrapperApi.GetWeatherForecastAsync();
+    }
+
+    private async Task GetWeatherByExtensionAsync()
+    {
+        _weatherJson_Ext = string.Empty;
+        HttpClient localClient = HttpClientFactory.CreateClient("local");
+        _weatherJson_Ext = await localClient.GetWeatherForecastAsync(Logger);
+    }
+}

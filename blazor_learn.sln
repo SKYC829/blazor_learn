@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLearn_WebApp", "Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLearn_WebApp.Client", "BlazorLearn_WebApp\BlazorLearn_WebApp.Client\BlazorLearn_WebApp.Client.csproj", "{4EE532D7-D3AF-4967-BA7C-22582966836E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorLearn_ExampleApi", "BlazorLearn_ExampleApi\BlazorLearn_ExampleApi.csproj", "{91158D35-26F6-465A-A307-8D871A979FE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EE532D7-D3AF-4967-BA7C-22582966836E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91158D35-26F6-465A-A307-8D871A979FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91158D35-26F6-465A-A307-8D871A979FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91158D35-26F6-465A-A307-8D871A979FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91158D35-26F6-465A-A307-8D871A979FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{081CAE12-1AF4-4601-A39D-136CA193BC2A} = {CA9DC8E9-71CA-49B5-91C5-2993F0F453B2}
 		{4EE532D7-D3AF-4967-BA7C-22582966836E} = {CA9DC8E9-71CA-49B5-91C5-2993F0F453B2}
+		{91158D35-26F6-465A-A307-8D871A979FE1} = {F5D34287-4856-481C-88B1-FB662F1F64A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBDCF96F-C121-4099-AC5C-00547CE4EADD}
