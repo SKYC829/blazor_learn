@@ -2,6 +2,7 @@ using BlazorLearn_WebApp.Client;
 using BlazorLearn_WebApp.Client.Components.L02.TransferServiceExample;
 using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Client.Components.L12;
+using BlazorLearn_WebApp.Client.Components.L13;
 using BlazorLearn_WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,8 @@ builder.Services.AddHttpClient("local", c =>
     c.BaseAddress = new Uri("https://localhost:7297");
 }).AddHttpMessageHandler<MyHttpClientMiddleware>()
 .AddHttpMessageHandler<YourHttpClientMiddleware>();
+
+builder.Services.AddScoped<CacheStorageAccessor>();
 
 var app = builder.Build();
 
