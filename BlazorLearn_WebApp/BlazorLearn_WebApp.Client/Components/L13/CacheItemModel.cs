@@ -12,6 +12,6 @@
 
         public string? Value { get; set; }
 
-        public TimeSpan TimeoutAt { get; set; } = TimeSpan.FromSeconds(10);
+        public DateTime? TimeoutAt { get; set; }
     }
 }

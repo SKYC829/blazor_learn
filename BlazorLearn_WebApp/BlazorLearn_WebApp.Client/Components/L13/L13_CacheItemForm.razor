@@ -1,7 +1,7 @@
 ﻿<h3>缓存数据</h3>
 
 <EditForm FormName='myForm' Model="_cacheItemModel" OnSubmit="OnSubmitAsync">
-    @if ( UseCacheStorage )
+    @if(UseCacheStorage || UseCookieStorage )
     {
         <div>
             <label>
@@ -9,6 +9,9 @@
                 <InputText @bind-Value="_cacheItemModel!.Url"></InputText>
             </label>
         </div>
+    }
+    @if ( UseCacheStorage )
+    {
         <div>
             <label>
                 <span>请求方法:</span>
@@ -24,9 +27,27 @@
             </label>
         </div>
     }
+    else if ( UseCookieStorage )
+    {
+        <div>
+            <label>
+                <span>缓存超时时间:</span>
+                <InputDate TValue="DateTime?" Type="@InputDateType.DateTimeLocal" @bind-Value="_cacheItemModel!.TimeoutAt"></InputDate>
+            </label>
+        </div>
+    }
     else
     {
         
+    }
+    @if ( !UseCacheStorage )
+    {
+        <div>
+            <label>
+                <span>缓存键:</span>
+                <InputText @bind-Value="_cacheItemModel!.Key"></InputText>
+            </label>
+        </div>
     }
     <div>
         <label>缓存值:</label>

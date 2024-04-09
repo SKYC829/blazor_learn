@@ -8,12 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\l13\CookieStorageAccessor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\l13\CookieStorageAccessor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlazorLearn_WebApp.Client\BlazorLearn_WebApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\js\L13\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\l13\CookieStorageAccessor.js" />
   </ItemGroup>
 
 </Project>

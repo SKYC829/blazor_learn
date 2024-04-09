@@ -12,6 +12,9 @@ namespace BlazorLearn_WebApp.Client.Components.L13
         public bool UseCacheStorage { get; set; }
 
         [Parameter]
+        public bool UseCookieStorage { get; set; }
+
+        [Parameter]
         public EventCallback<CacheItemModel> OnSubmitEvent { get; set; }
 
         [Parameter]

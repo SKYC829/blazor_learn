@@ -1,4 +1,3 @@
-using BlazorLearn_WebApp.Client;
 using BlazorLearn_WebApp.Client.Components.L02.TransferServiceExample;
 using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Client.Components.L12;
@@ -34,7 +33,8 @@ builder.Services.AddHttpClient("local", c =>
 }).AddHttpMessageHandler<MyHttpClientMiddleware>()
 .AddHttpMessageHandler<YourHttpClientMiddleware>();
 
-builder.Services.AddScoped<CacheStorageAccessor>();
+builder.Services.AddScoped<CacheStorageAccessor>()
+    .AddScoped<CookieStorageAccessor>();
 
 var app = builder.Build();
 
