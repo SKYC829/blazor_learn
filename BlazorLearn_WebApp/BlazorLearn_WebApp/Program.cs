@@ -34,7 +34,8 @@ builder.Services.AddHttpClient("local", c =>
 .AddHttpMessageHandler<YourHttpClientMiddleware>();
 
 builder.Services.AddScoped<CacheStorageAccessor>()
-    .AddScoped<CookieStorageAccessor>();
+    .AddScoped<CookieStorageAccessor>()
+    .AddScoped<IndexedDBAccessor>();
 
 var app = builder.Build();
 

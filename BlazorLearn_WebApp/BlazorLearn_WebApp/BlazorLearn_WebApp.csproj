@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\L13\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\js\l13\CookieStorageAccessor.js" />
   </ItemGroup>
 
