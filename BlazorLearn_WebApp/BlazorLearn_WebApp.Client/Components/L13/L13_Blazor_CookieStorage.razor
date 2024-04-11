@@ -1,0 +1,10 @@
+﻿@page "/l13/cookie"
+@rendermode @(new InteractiveServerRenderMode(false))
+
+<h3>L13_Blazor_CookieStorage</h3>
+
+<L13_CacheItemForm @ref="_form" UseCookieStorage
+    OnSubmitEvent="SetCookieAsync"
+    OnGetEvent="GetCookieAsync" 
+    OnDeleteEvent="RemoveAsync" 
+    OnClearEvent="ClearAsync"></L13_CacheItemForm>

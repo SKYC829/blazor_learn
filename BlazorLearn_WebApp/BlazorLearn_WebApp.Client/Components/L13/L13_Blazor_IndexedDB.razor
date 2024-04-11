@@ -1,0 +1,10 @@
+﻿@page "/l13/indexeddb"
+@rendermode @(new InteractiveServerRenderMode(false))
+
+<h3>L13_Blazor_IndexedDB</h3>
+
+<L13_CacheItemForm OnSubmitEvent="OnSubmitAsync"
+                   OnGetEvent="OnGetAsync"
+                   OnClearEvent="OnClearAsync"
+                   OnDeleteEvent="OnDeleteAsync"
+                   @ref="_form"></L13_CacheItemForm>

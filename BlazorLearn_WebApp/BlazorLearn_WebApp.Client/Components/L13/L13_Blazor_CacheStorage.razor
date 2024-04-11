@@ -1,0 +1,10 @@
+﻿@page "/l13/cache-storage"
+@rendermode @(new InteractiveServerRenderMode(false))
+
+<h3>L13_Blazor_CacheStorage</h3>
+
+<L13_CacheItemForm UseCacheStorage @ref="_form" 
+    OnSubmitEvent="OnSubmitAsync" 
+    OnGetEvent="OnGetAsync"
+    OnDeleteEvent="OnDeleteAsync" 
+    OnClearEvent="OnClearAsync" />

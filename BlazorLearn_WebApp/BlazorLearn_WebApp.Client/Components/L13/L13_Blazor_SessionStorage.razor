@@ -1,0 +1,10 @@
+﻿@page "/l13/session"
+@rendermode InteractiveAuto
+
+<h3>L13_Blazor_SessionStorage</h3>
+
+<L13_CacheItemForm @ref="_form"
+    OnSubmitEvent="OnSubmitAsync"
+    OnGetEvent="OnGetAsync"
+    OnDeleteEvent="OnDeleteAsync"
+    OnClearEvent="OnClearAsync"></L13_CacheItemForm>

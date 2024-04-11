@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLearn_WebApp", "Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLearn_WebApp.Client", "BlazorLearn_WebApp\BlazorLearn_WebApp.Client\BlazorLearn_WebApp.Client.csproj", "{4EE532D7-D3AF-4967-BA7C-22582966836E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorLearn_ExampleApi", "BlazorLearn_ExampleApi\BlazorLearn_ExampleApi.csproj", "{91158D35-26F6-465A-A307-8D871A979FE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLearn_ExampleApi", "BlazorLearn_ExampleApi\BlazorLearn_ExampleApi.csproj", "{91158D35-26F6-465A-A307-8D871A979FE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

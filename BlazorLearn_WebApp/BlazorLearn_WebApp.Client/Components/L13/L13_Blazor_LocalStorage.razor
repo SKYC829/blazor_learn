@@ -1,0 +1,10 @@
+﻿@page "/l13/localstorage"
+@rendermode InteractiveAuto
+
+<h3>L13_Blazor_LocalStorage</h3>
+
+<L13_CacheItemForm @ref="_form"
+    OnSubmitEvent="OnSubmitAsync"
+    OnGetEvent="OnGetAsync"
+    OnClearEvent="OnClearAsync"
+    OnDeleteEvent="OnDeleteAsync"></L13_CacheItemForm>
