@@ -37,7 +37,8 @@ builder.Services.AddScoped<CacheStorageAccessor>()
     .AddScoped<CookieStorageAccessor>()
     .AddScoped<IndexedDBAccessor>()
     .AddScoped<LocalStorageAccessor>()
-    .AddScoped<MemoryStorageAccessor>();
+    .AddScoped<MemoryStorageAccessor>()
+    .AddScoped<SessionStorageAccessor>();
 
 var app = builder.Build();
 
