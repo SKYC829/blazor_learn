@@ -1,0 +1,32 @@
+﻿@page "/l13/memory"
+@rendermode InteractiveAuto
+
+<h3>L13_Blazor_MemoryStorage</h3>
+
+<L13_CacheItemForm @ref="_form"
+    OnSubmitEvent="OnSubmit"
+    OnGetEvent="OnGet"
+    OnDeleteEvent="OnDelete"
+    OnClearEvent="OnClear"></L13_CacheItemForm>
+
+<div>
+    <div>Javascript 操作区</div>
+
+    <label>
+        <span>Key:</span>
+        <input type="text" id="tb_Key"/>
+    </label>
+    <label>
+        <span>Value:</span>
+        <input type="text" id="tb_Val"/>
+    </label>
+    <br/>
+    <label id="lb_Status"/>
+    <br/>
+    <button onclick="onSubmit()">保存</button>
+    <button onclick="onGet()">查询</button>
+    <button onclick="onDel()">删除</button>
+    <button onclick="onClear()">清空</button>
+</div>
+
+<script src="./Components/L13/L13_Blazor_MemoryStorage.razor.js" type="text/javascript"></script>

@@ -36,7 +36,8 @@ builder.Services.AddHttpClient("local", c =>
 builder.Services.AddScoped<CacheStorageAccessor>()
     .AddScoped<CookieStorageAccessor>()
     .AddScoped<IndexedDBAccessor>()
-    .AddScoped<LocalStorageAccessor>();
+    .AddScoped<LocalStorageAccessor>()
+    .AddScoped<MemoryStorageAccessor>();
 
 var app = builder.Build();
 
