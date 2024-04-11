@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\js\l13\CookieStorageAccessor.js" />
+    <Content Remove="wwwroot\js\l13\LocalStorageAccessor.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\l13\CookieStorageAccessor.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\l13\LocalStorageAccessor.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\js\l13\CookieStorageAccessor.js" />
+    <None Include="wwwroot\js\l13\LocalStorageAccessor.js" />
   </ItemGroup>
 
 </Project>
