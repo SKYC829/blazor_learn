@@ -1,0 +1,82 @@
+﻿<h3>缓存数据</h3>
+
+<EditForm FormName='myForm' Model="_cacheItemModel" OnSubmit="OnSubmitAsync">
+    @if(UseCacheStorage || UseCookieStorage )
+    {
+        <div>
+            <label>
+                <span>URL:</span>
+                <InputText @bind-Value="_cacheItemModel!.Url"></InputText>
+            </label>
+        </div>
+    }
+    @if ( UseCacheStorage )
+    {
+        <div>
+            <label>
+                <span>请求方法:</span>
+                <InputSelect @bind-Value="_cacheItemModel!.Method">
+                    <option value="get">get</option>
+                </InputSelect>
+            </label>
+        </div>
+        <div>
+            <label>
+                <span>请求体:</span>
+                <InputTextArea @bind-Value="_cacheItemModel!.Body"></InputTextArea>
+            </label>
+        </div>
+    }
+    else if ( UseCookieStorage )
+    {
+        <div>
+            <label>
+                <span>缓存超时时间:</span>
+                <InputDate TValue="DateTime?" Type="@InputDateType.DateTimeLocal" @bind-Value="_cacheItemModel!.TimeoutAt"></InputDate>
+            </label>
+        </div>
+    }
+    else
+    {
+        
+    }
+    @if ( !UseCacheStorage )
+    {
+        <div>
+            <label>
+                <span>缓存键:</span>
+                <InputText @bind-Value="_cacheItemModel!.Key"></InputText>
+            </label>
+        </div>
+    }
+    <div>
+        <label>缓存值:</label>
+        <InputText @bind-Value="_cacheItemModel!.Value"></InputText>
+    </div>
+    <button type="submit">保存</button>
+    @if ( UseCacheStorage )
+    {
+        <button type="button" @onclick="OnGetAsync">查询</button>
+        <button type="button" @onclick="OnDeleteAsync">删除</button>
+        <button type="button" @onclick="OnClearAsync">清空</button>
+    }
+</EditForm>
+
+<div>
+    @if ( !UseCacheStorage )
+    {
+        <label>
+            <span>缓存标识</span>
+            <input type="text" @bind-value="_searchKey" />
+        </label>
+        <div>
+            <button type="button" @onclick="OnGetAsync">查询</button>
+            <button type="button" @onclick="OnDeleteAsync">删除</button>
+            <button type="button" @onclick="OnClearAsync">清空</button>
+        </div>
+    }
+    <label>
+        <span>操作结果:</span>
+        @_operationState
+    </label>
+</div>
