@@ -3,6 +3,7 @@ using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Client.Components.L12;
 using BlazorLearn_WebApp.Client.Components.L13;
 using BlazorLearn_WebApp.Client.Components.L14;
+using BlazorLearn_WebApp.Client.Components.L14.GoogleLogin;
 using BlazorLearn_WebApp.Components;
 using BlazorLearn_WebApp.Handlers;
 using BlazorLearn_WebApp.Providers;
@@ -43,7 +44,7 @@ builder.Services.AddScoped<CacheStorageAccessor>()
     .AddScoped<CookieStorageAccessor>()
     .AddScoped<IndexedDBAccessor>()
     .AddScoped<LocalStorageAccessor>()
-    .AddScoped<MemoryStorageAccessor>()
+    .AddSingleton<MemoryStorageAccessor>()
     .AddScoped<SessionStorageAccessor>();
 
 builder.Services.AddScoped<L14_UserService>()
@@ -51,6 +52,8 @@ builder.Services.AddScoped<L14_UserService>()
     .AddScheme<AuthenticationSchemeOptions,ServerSideAuthenticationHandler>(L14_Constant.MYJWT_AUTHENTICATION_SCHEME_NAME,null);
 builder.Services.AddCascadingAuthenticationState()
     .AddScoped<AuthenticationStateProvider,ServerSideAuthenticationStateProvider>();
+
+builder.Services.AddScoped<GoogleLoginApi>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -30,29 +30,63 @@ namespace BlazorLearn_WebApp.Handlers
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            Logger.LogInformation($"获取认证结果:{Context.Connection.Id}");
+            //Logger.LogInformation($"获取认证结果:{Context.Connection.Id}");
             object? loginedToken = _storageAccessor.Get(L14_Constant.MYJWT_AUTHENTICATION_CACHE_KEY);
             if ( string.IsNullOrWhiteSpace(loginedToken?.ToString()) )
             {
-                StringValues userName,password;
+                StringValues userName = StringValues.Empty,password = StringValues.Empty,provider = StringValues.Empty,openId = StringValues.Empty;
                 if ( Request.Method == HttpMethods.Post )
                 {
                     if ( !Request.HasFormContentType )
                     {
                         return AuthenticateResult.NoResult();
                     }
-                    if ( !Request.Form.TryGetValue("userName", out userName) || !Request.Form.TryGetValue("password", out password) )
+                    if ( Request.Form.TryGetValue("provider", out provider) )
                     {
-                        return AuthenticateResult.NoResult();
+                        switch ( provider.ToString().ToLower() )
+                        {
+                            case "google":
+                                if(!Request.Form.TryGetValue("openId", out openId) )
+                                {
+                                    return AuthenticateResult.NoResult();
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if ( !Request.Form.TryGetValue("userName", out userName) || !Request.Form.TryGetValue("password", out password) )
+                        {
+                            return AuthenticateResult.NoResult();
+                        }
                     }
                 }
                 else if ( Request.Method == HttpMethods.Get )
                 {
-                    if ( !Request.Query.TryGetValue("userName", out userName) || !Request.Query.TryGetValue("password", out password) )
+                    if(!Request.Query.TryGetValue("provider",out provider) )
                     {
-                        if ( !Request.Headers.TryGetValue("userName", out userName) || !Request.Headers.TryGetValue("password", out password) )
+                        Request.Headers.TryGetValue("provider", out provider);
+                    }
+                    if ( string.IsNullOrWhiteSpace(provider) )
+                    {
+                        if ( !Request.Query.TryGetValue("userName", out userName) || !Request.Query.TryGetValue("password", out password) )
                         {
-                            return AuthenticateResult.NoResult();
+                            if ( !Request.Headers.TryGetValue("userName", out userName) || !Request.Headers.TryGetValue("password", out password) )
+                            {
+                                return AuthenticateResult.NoResult();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        switch ( provider.ToString().ToLower() )
+                        {
+                            case "google":
+                                if(!Request.Query.TryGetValue("openId",out openId) && !Request.Headers.TryGetValue("openId",out openId) )
+                                {
+                                    return AuthenticateResult.NoResult();
+                                }
+                                break;
                         }
                     }
                 }
@@ -60,11 +94,30 @@ namespace BlazorLearn_WebApp.Handlers
                 {
                     return AuthenticateResult.NoResult();
                 }
-                if ( string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password) )
+                string? jwtToken = string.Empty;
+                if ( string.IsNullOrWhiteSpace(provider) )
                 {
-                    return AuthenticateResult.Fail("请输入用户名或密码");
+                    if ( string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password) )
+                    {
+                        return AuthenticateResult.Fail("请输入用户名或密码");
+                    }
+                    jwtToken = await _userService.LoginAsync(userName!,password!);
                 }
-                string? jwtToken = await _userService.LoginAsync(userName!,password!);
+                else
+                {
+                    if ( string.IsNullOrWhiteSpace(openId) )
+                    {
+                        return AuthenticateResult.Fail($"使用 {provider} 登录失败");
+                    }
+                    switch ( provider.ToString().ToLower() )
+                    {
+                        case "google":
+                            JwtSecurityToken token = new JwtSecurityToken(openId);
+                            openId = token.Claims.FirstOrDefault(p => p.Type == "sub")?.Value;
+                            jwtToken = await _userService.LoginWithGoogleAsync(openId);
+                            break;
+                    }
+                }
                 if ( string.IsNullOrWhiteSpace(jwtToken) )
                 {
                     return AuthenticateResult.Fail("用户名或密码错误");

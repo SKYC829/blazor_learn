@@ -1,4 +1,5 @@
 using BlazorLearn_WebApp.Client.Components.L13;
+using BlazorLearn_WebApp.Client.Components.L14.GoogleLogin;
 using BlazorLearn_WebApp.Client.Components.L14.Providers;
 
 using Microsoft.AspNetCore.Components.Authorization;
@@ -14,6 +15,9 @@ builder.Services.AddScoped<CacheStorageAccessor>()
 
 builder.Services.AddSingleton<AuthenticationStateProvider, ClientSideAuthenticationStateProvider>()
     .AddCascadingAuthenticationState();
+
+builder.Configuration.AddUserSecrets<Program>(true,true);
+builder.Services.AddScoped<GoogleLoginApi>();
 
 builder.Services.AddHttpClient<HttpClient>("baidu", c =>
 {

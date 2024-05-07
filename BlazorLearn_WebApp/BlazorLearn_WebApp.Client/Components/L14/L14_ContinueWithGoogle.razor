@@ -1,0 +1,51 @@
+﻿@page "/l14/auth/google"
+@rendermode InteractiveServer
+
+@using BlazorLearn_WebApp.Client.Components.L14.GoogleLogin
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+
+<h3>L14_ContinueWithGoogle</h3>
+
+<div id="googleDiv"></div>
+
+@if ( AuthenticationState is null )
+{
+    <div>AuthenticationState 未注入</div>
+}
+else
+{
+    AuthenticationState state = AuthenticationState.GetAwaiter().GetResult();
+    if ( state.User.Identity?.IsAuthenticated == true )
+    {
+        foreach ( Claim item in state.User.Claims )
+        {
+            <div>
+                <label>
+                    <span>@item.Type</span>
+                    <span> = </span>
+                    <span>@item.Value</span>
+                </label>
+            </div>
+        }
+    }
+    else
+    {
+        <div>未登录</div>
+    }
+}
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    [Inject]
+    public GoogleLoginApi? GoogleApi { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await GoogleApi?.InitializeAsync();
+    }
+}

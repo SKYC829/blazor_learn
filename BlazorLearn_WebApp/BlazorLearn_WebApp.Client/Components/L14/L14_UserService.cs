@@ -20,6 +20,16 @@
             return await response.Content.ReadAsStringAsync();
         }
 
+        public async Task<string?> LoginWithGoogleAsync(string googleAccountId)
+        {
+            HttpResponseMessage response = await _httpClient.PostAsync("/api/lobby/login/google",new FormUrlEncodedContent(new Dictionary<string,string>()
+            {
+                {"googleAccountId",googleAccountId }
+            }));
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public async Task SiginInAsync(string userName,string email,string password)
         {
             HttpResponseMessage response = await _httpClient.PostAsync("/api/lobby/sigin-in",new FormUrlEncodedContent(new Dictionary<string,string>()
