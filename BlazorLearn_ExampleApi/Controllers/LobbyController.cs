@@ -99,5 +99,50 @@ namespace BlazorLearn_ExampleApi.Controllers
             await _exampleContext.SaveChangesAsync();
             return Created("/users", entity.Entity.Id);
         }
+
+        [HttpPost("login/google")]
+        public async Task<string> LoginWithGoogleAsync([FromForm]string googleAccountId)
+        {
+            SystemUser? su = null;
+            Claim[] roleClaims = [];
+            try
+            {
+                su = _exampleContext.SystemUserGoogleMaps.Include(p=>p.User).ThenInclude(p=>p.SystemUserSecret).FirstOrDefault(p => p.GoogleOpenId == googleAccountId)?.User;
+                if(su is null )
+                {
+                    return "";
+                }
+                roleClaims = _exampleContext.SystemUserRoles.Include(p => p.Role).Where(p => p.UserId == su.Id).Select(p => new Claim(ClaimTypes.Role, p.Role.Code)).ToArray();
+            }
+            catch ( Exception ex )
+            {
+                su = _defaultUser;
+                su.SystemUserGoogleMaps = new SystemUserGoogleMap()
+                {
+                    Id = 1,
+                    GoogleOpenId = googleAccountId,
+                    UserId = su.Id
+                };
+                if(su.SystemUserSecret is null )
+                {
+                    su.SystemUserSecret = new SystemUserSecret()
+                    {
+                        Password = "123123",
+                        Id = 1,
+                        UserId = su.Id
+                    };
+                }
+                roleClaims = su.SystemUserRoles.Select(p => new Claim(ClaimTypes.Role, p.Role.Code)).ToArray();
+            }
+            Claim[] basicClaims = [
+                    new Claim(ClaimTypes.NameIdentifier,su?.Id.ToString()??"-1"),
+                    new Claim(ClaimTypes.Name,su!.Name),
+                    new Claim(ClaimTypes.Email,su.Email),
+                    new Claim(ClaimTypes.Hash,su.SystemUserSecret!.Password),
+                    new Claim("GoogleOpenId", googleAccountId)
+                    ];
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(claims:[..basicClaims,..roleClaims]);
+            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        }
     }
 }
