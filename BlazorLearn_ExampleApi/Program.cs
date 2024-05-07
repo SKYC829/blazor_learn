@@ -1,4 +1,5 @@
 using BlazorLearn_ExampleApi.Databases;
+using BlazorLearn_ExampleApi.Databases.Models;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,35 @@ builder.Services.AddDbContextPool<AuthExampleContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AuthExampleDb"));
 });
+
+SystemUser us = new SystemUser()
+{
+    Id = 1,
+    Name = "Moc”√ªß",
+    Email = "abc@gmail.com",
+    SystemUserRoles = new List<SystemUserRole>()
+    {
+        new SystemUserRole()
+        {
+            Id = 1,
+            Role = new SystemRole()
+            {
+                Id = 1,
+                Code = "Admin",
+                Name = "Admin"
+            },
+            UserId = 1
+        }
+    },
+    SystemUserSecret = new SystemUserSecret()
+    {
+        Id = 1,
+        Password = "123456",
+        UserId = 1
+    }
+};
+
+builder.Services.AddSingleton<SystemUser>(us);
 
 var app = builder.Build();
 

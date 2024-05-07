@@ -10,49 +10,65 @@ using System.Security.Claims;
 
 namespace BlazorLearn_ExampleApi.Controllers
 {
-    [Route("api/lobby")]
     [ApiController]
+    [Route("api/lobby")]
     public class LobbyController : ControllerBase
     {
         private readonly AuthExampleContext _exampleContext;
+        private readonly SystemUser _defaultUser;
 
-        public LobbyController(AuthExampleContext exampleContext)
+        public LobbyController(AuthExampleContext exampleContext,SystemUser user)
         {
             _exampleContext = exampleContext;
+            _defaultUser = user;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<string> LoginAsync([FromForm]string userName, [FromForm]string password, [FromForm]string? googleAccountId = null)
         {
-            var users = _exampleContext.SystemUsers.Include(p=>p.SystemUserSecret).AsQueryable();
-            if(users.Any(p=>(p.Name == userName || p.Email == userName) && (p.SystemUserSecret != null && p.SystemUserSecret.Password == password )) )
+            SystemUser? su = null;
+            Claim[] roleClaims = [];
+            try
             {
-                SystemUser su = users.First(p=>(p.Name == userName || p.Email == userName) && (p.SystemUserSecret != null && p.SystemUserSecret.Password == password ));
-                if ( !string.IsNullOrWhiteSpace(googleAccountId) )
+                var users = _exampleContext.SystemUsers.Include(p=>p.SystemUserSecret).AsQueryable();
+                if ( users.Any(p => ( p.Name == userName || p.Email == userName ) && ( p.SystemUserSecret != null && p.SystemUserSecret.Password == password )) )
                 {
-                    if(!_exampleContext.SystemUserGoogleMaps.Any(p=>p.UserId == su.Id && p.GoogleOpenId == googleAccountId) )
+                    su = users.First(p=>(p.Name == userName || p.Email == userName) && (p.SystemUserSecret != null && p.SystemUserSecret.Password == password ));
+                    if ( !string.IsNullOrWhiteSpace(googleAccountId) )
                     {
-                        SystemUserGoogleMap googleMap = new SystemUserGoogleMap();
-                        googleMap.User = su;
-                        googleMap.GoogleOpenId = googleAccountId;
-                        _exampleContext.Add(googleMap);
-                        await _exampleContext.SaveChangesAsync();
+                        if ( !_exampleContext.SystemUserGoogleMaps.Any(p => p.UserId == su.Id && p.GoogleOpenId == googleAccountId) )
+                        {
+                            SystemUserGoogleMap googleMap = new SystemUserGoogleMap();
+                            googleMap.User = su;
+                            googleMap.GoogleOpenId = googleAccountId;
+                            _exampleContext.Add(googleMap);
+                            await _exampleContext.SaveChangesAsync();
+                        }
                     }
+                    roleClaims = _exampleContext.SystemUserRoles.Include(p => p.Role).Where(p => p.UserId == su.Id).Select(p => new Claim(ClaimTypes.Role, p.Role.Code)).ToArray();
                 }
-                Claim[] basicClaims = [
-                    new Claim(ClaimTypes.NameIdentifier,su.Id.ToString()),
+            }
+            catch
+            {
+                su = _defaultUser;
+                roleClaims = su.SystemUserRoles.Select(p => new Claim(ClaimTypes.Role, p.Role.Code)).ToArray();
+            }
+            Claim[] basicClaims = [
+                    new Claim(ClaimTypes.NameIdentifier,su?.Id.ToString()??"-1"),
                     new Claim(ClaimTypes.Name,su.Name),
                     new Claim(ClaimTypes.Email,su.Email),
                     new Claim(ClaimTypes.Hash,password)
                     ];
-                Claim[] roleClaims = _exampleContext.SystemUserRoles.Include(p=>p.Role).Where(p=>p.UserId == su.Id).Select(p=>new Claim(ClaimTypes.Role,p.Role.Code)).ToArray();
-                JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(claims:[..basicClaims,..roleClaims]);
-                return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            Claim[] googleProperties = [];
+            if ( !string.IsNullOrWhiteSpace(googleAccountId) )
+            {
+                googleProperties = [new Claim("GoogleOpenId", googleAccountId)];
             }
-            return "";
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(claims:[..basicClaims,..roleClaims,..googleProperties]);
+            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         }
 
-        [HttpPost("/sigin-in")]
+        [HttpPost("sigin-in")]
         public async Task<IActionResult> SiginIn([FromForm]string userName, [FromForm]string email, [FromForm]string password, [FromForm]string? googleAccountId = null)
         {
             SystemUser su = new SystemUser();

@@ -2,7 +2,13 @@ using BlazorLearn_WebApp.Client.Components.L02.TransferServiceExample;
 using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Client.Components.L12;
 using BlazorLearn_WebApp.Client.Components.L13;
+using BlazorLearn_WebApp.Client.Components.L14;
 using BlazorLearn_WebApp.Components;
+using BlazorLearn_WebApp.Handlers;
+using BlazorLearn_WebApp.Providers;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +46,11 @@ builder.Services.AddScoped<CacheStorageAccessor>()
     .AddScoped<MemoryStorageAccessor>()
     .AddScoped<SessionStorageAccessor>();
 
+builder.Services.AddScoped<L14_UserService>()
+    .AddAuthentication(L14_Constant.MYJWT_AUTHENTICATION_SCHEME_NAME)
+    .AddScheme<AuthenticationSchemeOptions,ServerSideAuthenticationHandler>(L14_Constant.MYJWT_AUTHENTICATION_SCHEME_NAME,null);
+builder.Services.AddCascadingAuthenticationState()
+    .AddScoped<AuthenticationStateProvider,ServerSideAuthenticationStateProvider>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
