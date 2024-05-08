@@ -11,6 +11,8 @@ namespace BlazorLearn_WebApp.Client.Components.L14
 
         public string Name { get; set; } = null!;
 
+        public int Age { get; set; } = 10;
+
         public virtual string? SystemUserGoogleMaps { get; set; }
 
         public virtual ICollection<string> SystemUserRoles { get; set; } = new List<string>();
@@ -42,6 +44,7 @@ namespace BlazorLearn_WebApp.Client.Components.L14
                 info.Id = int.Parse(claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
                 info.Name = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value ?? "";
                 info.Email = claimsPrincipal.FindFirst(ClaimTypes.Email)?.Value ?? "";
+                info.Age = int.Parse(claimsPrincipal.FindFirst("age")?.Value ?? "0");
                 info.SystemUserGoogleMaps = claimsPrincipal.FindFirst("GoogleOpenId")?.Value ?? "";
                 info.SystemUserSecret = claimsPrincipal.FindFirst(ClaimTypes.Hash)?.Value ?? "";
                 info.SystemUserRoles = new List<string>(claimsPrincipal.FindAll(ClaimTypes.Role).Select(p => p.Value));
@@ -66,7 +69,8 @@ namespace BlazorLearn_WebApp.Client.Components.L14
                     new Claim(ClaimTypes.NameIdentifier,Id.ToString()),
                     new Claim(ClaimTypes.Name,Name),
                     new Claim(ClaimTypes.Email,Email),
-                    new Claim(ClaimTypes.Hash,SystemUserSecret)
+                    new Claim(ClaimTypes.Hash,SystemUserSecret),
+                    new Claim("age",Age.ToString())
                     ];
             Claim[] roleClaims = SystemUserRoles.Select(p=>new Claim(ClaimTypes.Role,p)).ToArray();
             Claim[] googleProperties = [];
