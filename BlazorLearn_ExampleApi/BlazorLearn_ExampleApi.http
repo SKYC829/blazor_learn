@@ -4,3 +4,6 @@ GET {{BlazorLearn_ExampleApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{BlazorLearn_ExampleApi_HostAddress}}/api/lobby/login/
+Content-Type: application/www-urlencoded-form

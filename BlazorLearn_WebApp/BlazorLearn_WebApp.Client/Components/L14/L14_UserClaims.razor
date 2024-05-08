@@ -1,0 +1,59 @@
+﻿@page "/l14/user"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@rendermode InteractiveWebAssembly
+@* @attribute [Authorize] *@
+
+<h3>L14_UserClaims</h3>
+
+@if(AuthenticationState is null )
+{
+    <div>AuthenticationState 未注入</div>
+}
+else
+{
+    AuthenticationState state = AuthenticationState.GetAwaiter().GetResult();
+    if ( state.User.Identity?.IsAuthenticated == true )
+    {
+        <AuthorizeView>
+            <NotAuthorized>
+                <div>我没有权限看到我的 Claims</div>
+            </NotAuthorized>
+            <Authorizing>
+                <div>正在检查权限...</div>
+            </Authorizing>
+            <Authorized>
+                @foreach ( Claim item in state.User.Claims )
+                {
+                    <div>
+                        <label>
+                            <span>@item.Type</span>
+                            <span> = </span>
+                            <span>@item.Value</span>
+                        </label>
+                    </div>
+                }
+            </Authorized>
+        </AuthorizeView>
+    }
+}
+
+<AuthorizeView Policy="AdultPolicy">
+    <NotAuthorized>
+        <div>还没满18岁</div>
+    </NotAuthorized>
+    <Authorizing>
+        <div>检查年龄中</div>
+    </Authorizing>
+    <Authorized>
+        <div>今年刚满18岁</div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+}

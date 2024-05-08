@@ -2,7 +2,17 @@ using BlazorLearn_WebApp.Client.Components.L02.TransferServiceExample;
 using BlazorLearn_WebApp.Client.Components.L09;
 using BlazorLearn_WebApp.Client.Components.L12;
 using BlazorLearn_WebApp.Client.Components.L13;
+using BlazorLearn_WebApp.Client.Components.L14;
+using BlazorLearn_WebApp.Client.Components.L14.Authorizes;
+using BlazorLearn_WebApp.Client.Components.L14.GoogleLogin;
 using BlazorLearn_WebApp.Components;
+using BlazorLearn_WebApp.Handlers;
+using BlazorLearn_WebApp.Providers;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +47,25 @@ builder.Services.AddScoped<CacheStorageAccessor>()
     .AddScoped<CookieStorageAccessor>()
     .AddScoped<IndexedDBAccessor>()
     .AddScoped<LocalStorageAccessor>()
-    .AddScoped<MemoryStorageAccessor>()
+    .AddSingleton<MemoryStorageAccessor>()
     .AddScoped<SessionStorageAccessor>();
 
+builder.Services.AddScoped<L14_UserService>()
+    .AddAuthentication(L14_Constant.MYJWT_AUTHENTICATION_SCHEME_NAME)
+    .AddScheme<AuthenticationSchemeOptions,ServerSideAuthenticationHandler>(L14_Constant.MYJWT_AUTHENTICATION_SCHEME_NAME,null);
+builder.Services.AddCascadingAuthenticationState()
+    .AddScoped<AuthenticationStateProvider,ServerSideAuthenticationStateProvider>();
+
+builder.Services.AddAuthorization(c =>
+{
+    c.DefaultPolicy = AuthorizationPolicy.Combine(c.DefaultPolicy, new AuthorizationPolicy([new RolesAuthorizationRequirement(["admin"])], []));
+    c.AddPolicy("AdultPolicy", policy =>
+    {
+        policy.AddRequirements(new AdultAuthorizationRequirement(18));
+    });
+});
+
+builder.Services.AddScoped<GoogleLoginApi>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
