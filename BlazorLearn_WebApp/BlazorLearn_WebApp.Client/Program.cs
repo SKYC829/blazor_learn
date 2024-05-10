@@ -31,6 +31,12 @@ builder.Services.AddHttpClient("local", c =>
 {
     c.BaseAddress = new Uri("https://localhost:7297");
 });
+
+builder.Services.AddHttpClient("self", c =>
+{
+    c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+});
+
 builder.Services.AddAuthorizationCore(c =>
 {
     c.DefaultPolicy = AuthorizationPolicy.Combine(c.DefaultPolicy, new AuthorizationPolicy([new RolesAuthorizationRequirement(["admin"])], []));
