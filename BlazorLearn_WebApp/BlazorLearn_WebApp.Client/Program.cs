@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using BlazorLearn_WebApp.Client.Components.L14.Authorizes;
+using BlazorLearn_WebApp.Client.Components.L15;
+using Microsoft.Extensions.Localization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddScoped<CacheStorageAccessor>()
@@ -45,4 +47,12 @@ builder.Services.AddAuthorizationCore(c =>
         policy.AddRequirements(new AdultAuthorizationRequirement(18));
     });
 });
+
+builder.Services.AddSingleton<GlobalizationCultureProvider>()
+    .AddLocalization(op =>
+    {
+        op.ResourcesPath = "l10n";
+    })
+    .AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
+
 await builder.Build ().RunAsync ();

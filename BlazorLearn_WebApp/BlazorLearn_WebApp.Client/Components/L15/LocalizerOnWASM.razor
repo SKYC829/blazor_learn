@@ -1,0 +1,53 @@
+﻿@page "/l15/localizer/wasm"
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@inject IStringLocalizer<LocalizerOnWASM> Localizer
+@inject NavigationManager NavigationManager
+@inject ILogger<LocalizerOnWASM> Logger
+@inject GlobalizationCultureProvider CultureProvider
+@implements IDisposable
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+<h3>LocalizerOnWASM</h3>
+
+<div>
+    本地化中的 Title 是:
+</div>
+
+<div>
+    @Localizer["Title"]
+</div>
+
+<div>
+    <button @onclick="ChangeCultureAsync">切换区域</button>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        CultureProvider.SubscribeCultureChange(this);
+    }
+
+    private async Task ChangeCultureAsync()
+    {
+        string? cultureName = CultureProvider.CurrentCulture!.Name.ToLower();
+        if ( cultureName == "zh-cn" )
+        {
+            Logger.LogInformation($"当前区域:{cultureName}，准备切换到 en-us");
+            CultureProvider.CurrentCulture = CultureInfo.GetCultureInfo("en-us");
+        }
+        else
+        {
+            Logger.LogInformation($"当前区域:{cultureName}，准备切换到 zh-cn");
+            CultureProvider.CurrentCulture = CultureInfo.GetCultureInfo("zh-cn");
+        }
+        // NavigationManager.Refresh(true);
+        // await InvokeAsync(() => StateHasChanged());
+    }
+
+    public void Dispose()
+    {
+        CultureProvider.UnsubscribeCultureChange(this);
+    }
+}
