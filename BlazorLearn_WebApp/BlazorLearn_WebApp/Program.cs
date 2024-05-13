@@ -7,12 +7,17 @@ using BlazorLearn_WebApp.Client.Components.L14.Authorizes;
 using BlazorLearn_WebApp.Client.Components.L14.GoogleLogin;
 using BlazorLearn_WebApp.Components;
 using BlazorLearn_WebApp.Handlers;
+using BlazorLearn_WebApp.Localizers;
 using BlazorLearn_WebApp.Providers;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Localization;
+
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +71,11 @@ builder.Services.AddAuthorization(c =>
 });
 
 builder.Services.AddScoped<GoogleLoginApi>();
+builder.Services.AddScoped<IStringLocalizerFactory, JsonStringLocalizerFactory>()
+    .AddLocalization(op =>
+    {
+        op.ResourcesPath = "wwwroot/l10n";
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
