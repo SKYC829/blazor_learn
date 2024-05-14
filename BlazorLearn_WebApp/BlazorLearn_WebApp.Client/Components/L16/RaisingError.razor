@@ -1,0 +1,12 @@
+﻿@rendermode InteractiveAuto
+
+<h3>RaisingError</h3>
+
+
+<button @onclick="RaisingErrorAsync">点击我将会报错</button>
+
+@code{
+    private async Task  RaisingErrorAsync(){
+        throw new Exception("手动抛出一个异常");
+    }
+}
