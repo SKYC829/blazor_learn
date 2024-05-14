@@ -1,0 +1,18 @@
+﻿@page "/l16/error-handle"
+@rendermode InteractiveAuto
+<h3>L16_ErrorHandle</h3>
+
+<ErrorBoundary @ref="_error" Context="boundary">
+    <ChildContent>
+        <RaisingError />
+    </ChildContent>
+    <ErrorContent>
+        <div>
+            发生了 @boundary.Message 错误，尝试<a href="javascript:void(0)" @onclick="_error.Recover">恢复</a>一下吧
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    private ErrorBoundary _error;
+}
